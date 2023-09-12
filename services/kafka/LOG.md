@@ -1,0 +1,1 @@
+docker-compose exec kafka kafka-topics --create --topic test --bootstrap-server kafka:9092
