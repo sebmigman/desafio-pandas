@@ -22,24 +22,20 @@ kafka_df = spark.readStream \
     .load()
 ## schema
 
-kafka_schema = StructType([
-    StructField("glossary", StringType(), nullable=True),      # Key field as StringType
-    StructField("title", StringType(), nullable=True),      # Key field as StringType
-    ]
-)
 
+schema = StructType().add("glossary", "string").add("title", "string")
 
 # Assuming you have six aggregation functions q1, q2, q3, q4, q5, and q6
 # You can apply them to the streaming DataFrame
 
+base_df = kafka_df.selectExpr("CAST(value AS STRING)")
 
-base_df = kafka_df.selectExpr("CAST(value AS STRING) as value") 
 info_dataframe = base_df.select(
-        from_json("value", kafka_schema)
+        from_json(col("value"), schema).alias("json")
     )
 info_dataframe.printSchema()
 
-info_df_fin = info_dataframe.select("*")
+info_df_fin = info_dataframe.select("json.*")
 
 # Define a query to output the results to the console
 query = info_df_fin  \
