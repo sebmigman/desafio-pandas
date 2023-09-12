@@ -16,19 +16,20 @@ There's a common function as well to 'reduce' the output of the internal functio
 Dataframe are sorted and returned from the `qX()` function.
 In order to answer the question you call the function which returns a dataframe
 `df.head(K)` where K is the top
+
 ### New
 Add data validation task by performing aggregations on smaller datasets
 using CLI tools such as `grep`, `jq`, `sort`, `wc`
 
 ## Shortcomingsz
-No odularity 
-No CLI
-Localhost processing assumes a relative small file (400MB) 
+* No Modularity / WIP
+* No CLI / WIP
+* Localhost processing assumes a relative small file (400MB) /WIP
 
 ## Future
-Refactor single notebook into a main with a library/class definition for questions
-Migrate pandas dataframe logic and action to spark to scale the process
-Add CLI options (input file, K values per question, etc.)
+* Refactor single notebook into a main with a library/class definition for questions
+* Migrate pandas dataframe logic and action to spark to scale the process
+* Add CLI options (input file, K values per question, etc.)
 
 # WIP
 * Add kafka service container yaml
