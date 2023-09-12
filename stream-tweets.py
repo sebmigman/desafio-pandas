@@ -8,6 +8,8 @@ spark = SparkSession.builder \
     .master("local[*]") \
     .getOrCreate()
 
+spark.sparkContext.setLogLevel("ERROR")
+
 # Define Kafka-related configurations
 kafka_bootstrap_servers = "localhost:29092"  # Change to your Kafka broker address
 kafka_topic = "test"  # Change to your Kafka topic
@@ -20,27 +22,27 @@ kafka_df = spark.readStream \
     .load()
 ## schema
 
-tweet_schema = (
-        StructType()
-        .add("glossary", 
-             StructType().add("title", StringType())
-             )
-    )
+kafka_schema = StructType([
+    StructField("glossary", StringType(), nullable=True),      # Key field as StringType
+    StructField("title", StringType(), nullable=True),      # Key field as StringType
+    ]
+)
+
 
 # Assuming you have six aggregation functions q1, q2, q3, q4, q5, and q6
 # You can apply them to the streaming DataFrame
 
 
-base_df = kafka_df.selectExpr("CAST(value AS STRING) as value", "timestamp") 
-
+base_df = kafka_df.selectExpr("CAST(value AS STRING) as value") 
 info_dataframe = base_df.select(
-        from_json(col("value"), tweet_schema).alias("sample"), "timestamp"
+        from_json("value", kafka_schema)
     )
+info_dataframe.printSchema()
 
-info_df_fin = info_dataframe.select("sample.*", "timestamp")
+info_df_fin = info_dataframe.select("*")
 
 # Define a query to output the results to the console
-query = info_df_fin \
+query = info_df_fin  \
     .writeStream \
     .format("console") \
     .start()
