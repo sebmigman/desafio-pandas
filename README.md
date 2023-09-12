@@ -31,7 +31,7 @@ Migrate pandas dataframe logic and action to spark to scale the process
 Add CLI options (input file, K values per question, etc.)
 
 # WIP
-Add kafka service container yaml
-Add spark streaming to read using a fixed schema (tweet schema)
-Add script to produce messages on kafka service via bash script
-Add script to consume messages on kafka service via spark
+* Add kafka service container yaml
+* Add spark streaming to read using a fixed schema (tweet schema)
+* Add script to produce messages on kafka service via bash script
+* Add script to consume messages on kafka service via spark
